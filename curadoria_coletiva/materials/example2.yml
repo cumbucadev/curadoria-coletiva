@@ -1,0 +1,20 @@
+- titulo: Introdução ao Python!!
+  autor: Jane Doe
+  url: https://example.com/python-course
+  assuntos:
+    - python
+    - programação básica
+  formato: vídeo
+  minutos_necessarios: 90
+  prerequisitos:
+    - matemática básica
+  ritmo: médio
+  estilo_aprendizagem: visual
+  idioma: português (BR)
+  nivel_dificuldade: iniciante
+  eh_gratuito: true
+  recomendado_por:
+    - "@camilamaia"
+  comentarios:
+      - usuario: "@camilamaia"
+        texto: "Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível."

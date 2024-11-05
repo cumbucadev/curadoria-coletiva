@@ -1,0 +1,4 @@
+# Usando Pydantic para validação de dados
+Pydantic>=2.9.2,<3.0.0
+PyYAML>=6.0.2,<7.0.0
+ruff>=0.7.2,<1.0.0

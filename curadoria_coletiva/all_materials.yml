@@ -1,0 +1,42 @@
+# auto-generated file, please don't change it
+
+- assuntos:
+  - python
+  - programação básica
+  autor: Jane Doe
+  comentarios:
+  - texto: Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível.
+    usuario: '@camilamaia'
+  eh_gratuito: true
+  estilo_aprendizagem: visual
+  formato: vídeo
+  idioma: português (BR)
+  minutos_necessarios: 90
+  nivel_dificuldade: iniciante
+  prerequisitos:
+  - matemática básica
+  recomendado_por:
+  - '@camilamaia'
+  ritmo: médio
+  titulo: Introdução ao Python
+  url: https://example.com/python-course
+- assuntos:
+  - python
+  - programação básica
+  autor: Jane Doe
+  comentarios:
+  - texto: Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível.
+    usuario: '@camilamaia'
+  eh_gratuito: true
+  estilo_aprendizagem: visual
+  formato: vídeo
+  idioma: português (BR)
+  minutos_necessarios: 90
+  nivel_dificuldade: iniciante
+  prerequisitos:
+  - matemática básica
+  recomendado_por:
+  - '@camilamaia'
+  ritmo: médio
+  titulo: Introdução ao Python!!
+  url: https://example.com/python-course
