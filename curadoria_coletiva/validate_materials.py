@@ -7,7 +7,8 @@ from material import Material
 
 def validate_and_collect_materials(directory_path: str) -> List[Dict[str, Any]]:
     """Reads all YAML files in a directory, validates each material,
-    and collects them into a list, ensuring there are no duplicate titles."""
+    and collects them into a list, ensuring there are no duplicate titles.
+    Adds 'directory/filename' to each material for reference."""
 
     unique_titles: Set[str] = set()
     all_materials: List[Dict[str, Any]] = []
@@ -18,6 +19,8 @@ def validate_and_collect_materials(directory_path: str) -> List[Dict[str, Any]]:
             materials_data = _load_yaml_file(file_path)
 
             for material_data in materials_data:
+                material_data['file_path'] = f"{os.path.basename(directory_path)}/{filename}"
+
                 try:
                     _validate_material(material_data, unique_titles)
                     all_materials.append(material_data)
@@ -76,7 +79,6 @@ def save_all_materials_to_yaml(
     with open(output_file, "w", encoding="utf-8") as file:
         file.write("# auto-generated file, please don't change it\n\n")
 
-        # Usando a opção `Dumper=yaml.Dumper` para preservar a ordem
         yaml.dump(materials, file, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
     print(f"All materials saved to {output_file}")
