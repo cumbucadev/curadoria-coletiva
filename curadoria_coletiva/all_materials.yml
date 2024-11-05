@@ -1,46 +1,46 @@
 # auto-generated file, please don't change it
 
-- assuntos:
+- titulo: Introdução ao Python
+  autor: Jane Doe
+  url: https://example.com/python-course
+  assuntos:
   - python
   - programação básica
-  autor: Jane Doe
-  comentarios:
-  - texto: Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível.
-    usuario: '@camilamaia'
-  eh_gratuito: true
-  estilo_aprendizagem: visual
   formato: vídeo
-  idioma: português (BR)
   minutos_necessarios: 90
-  nivel_dificuldade: iniciante
   prerequisitos:
   - matemática básica
+  ritmo: médio
+  estilo_aprendizagem: visual
+  idioma: português (BR)
+  nivel_dificuldade: iniciante
+  eh_gratuito: true
   recomendado_por:
   - '@camilamaia'
-  ritmo: médio
-  titulo: Introdução ao Python
-  url: https://example.com/python-course
-- assuntos:
+  comentarios:
+  - usuario: '@camilamaia'
+    texto: Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível.
+- titulo: Avançando com Python
+  autor: John Smith
+  url: https://example.com/advanced-python
+  assuntos:
   - desenvolvimento web
   - python
-  autor: John Smith
-  comentarios:
-  - texto: Os exemplos práticos ajudaram muito a fixar o conteúdo!
-    usuario: '@mariagabriela'
-  - texto: Ótimo curso para quem quer se aprofundar mais na linguagem!
-    usuario: '@joaosilva'
-  eh_gratuito: false
-  estilo_aprendizagem: cinestésico
   formato: vídeo
-  idioma: português (BR)
   minutos_necessarios: 120
-  nivel_dificuldade: intermediário
   prerequisitos:
   - python
   - html
   - css
+  ritmo: rápido
+  estilo_aprendizagem: cinestésico
+  idioma: português (BR)
+  nivel_dificuldade: intermediário
+  eh_gratuito: false
   recomendado_por:
   - '@mariagabriela'
-  ritmo: rápido
-  titulo: Avançando com Python
-  url: https://example.com/advanced-python
+  comentarios:
+  - usuario: '@mariagabriela'
+    texto: Os exemplos práticos ajudaram muito a fixar o conteúdo!
+  - usuario: '@joaosilva'
+    texto: Ótimo curso para quem quer se aprofundar mais na linguagem!

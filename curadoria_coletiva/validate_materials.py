@@ -75,10 +75,11 @@ def save_all_materials_to_yaml(
     """Saves the collected materials to a YAML file with UTF-8 encoding."""
     with open(output_file, "w", encoding="utf-8") as file:
         file.write("# auto-generated file, please don't change it\n\n")
-        yaml.dump(materials, file, default_flow_style=False, allow_unicode=True)
+
+        # Usando a opção `Dumper=yaml.Dumper` para preservar a ordem
+        yaml.dump(materials, file, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
     print(f"All materials saved to {output_file}")
-
 
 if __name__ == "__main__":
     directory = "materials"
