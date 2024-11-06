@@ -4,7 +4,7 @@ import pandas as pd
 import yaml
 
 # Path to the local YAML file
-yaml_file_path = "all_materials.yml"
+yaml_file_path = "curadoria_coletiva/all_materials.yml"
 
 app = dash.Dash(__name__)
 app.title = "Curadoria Coletiva"
@@ -65,7 +65,7 @@ def _create_filter_dropdowns(df):
         dcc.Dropdown(
             id='category-dropdown',
             options=[{'label': i, 'value': i} for i in sorted(df['assuntos'].explode().unique().tolist())],
-            placeholder="Seleciona uma categoria",
+            placeholder="Assunto",
             style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'middle'}
         ),
         dcc.Dropdown(

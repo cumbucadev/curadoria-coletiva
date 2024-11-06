@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8080
 
 # Comando para rodar o aplicativo Dash com Gunicorn
-CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:8080"]
+CMD ["gunicorn", "curadoria_coletiva.app:server", "--bind", "0.0.0.0:8080"]

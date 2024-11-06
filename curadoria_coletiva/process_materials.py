@@ -2,7 +2,7 @@ import os
 import yaml
 from pydantic import ValidationError
 from typing import Set, List, Dict, Any
-from material import Material
+from curadoria_coletiva.material_model import Material
 
 
 def validate_and_collect_materials(directory_path: str) -> List[Dict[str, Any]]:
