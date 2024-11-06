@@ -43,10 +43,10 @@
   # Lista de usernames do GitHub de pessoas que recomendam o material
   recomendado_por:
     # Exemplo:
-    # - "@camilamaia"
+    # - "camilamaia"
 
   # Lista de comentários ou feedback adicional sobre o material
   comentarios:
     # Exemplo:
-    # - usuario: @camilamaia
+    # - usuario: camilamaia
     #   texto: "Ótimo material introdutório"

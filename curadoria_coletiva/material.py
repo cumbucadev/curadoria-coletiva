@@ -78,14 +78,14 @@ class Material(BaseModel):
                 "idioma": LanguageEnum.EN,
                 "nivel_dificuldade": DifficultyEnum.BEGINNER,
                 "eh_gratuito": True,
-                "eu_recomendo": {"@camilamaia"},
+                "eu_recomendo": {"camilamaia"},
                 "comments": [
                     {
-                        "usuario": "@camilamaia",
+                        "usuario": "camilamaia",
                         "texto": "Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível.",
                     },
                     {
-                        "usuario": "@joaodasilva",
+                        "usuario": "joaodasilva",
                         "texto": "Material excelente para iniciantes, muito didático.",
                     },
                 ],
