@@ -16,10 +16,11 @@ def collect_materials(directory_path: str, output_file: str) -> None:
             materials_data = _load_yaml_file(file_path)
 
             for material_data in materials_data:
-                material_data['file_path'] = f"{os.path.basename(directory_path)}/{filename}"
+                material_data["file_path"] = (
+                    f"{os.path.basename(directory_path)}/{filename}"
+                )
 
                 all_materials.append(material_data)
-
 
     _save_all_materials_to_yaml(all_materials, output_file)
 
@@ -41,6 +42,12 @@ def _save_all_materials_to_yaml(
     with open(output_file, "w", encoding="utf-8") as file:
         file.write("# auto-generated file, please don't change it\n\n")
 
-        yaml.dump(materials, file, default_flow_style=False, allow_unicode=True, sort_keys=False)
+        yaml.dump(
+            materials,
+            file,
+            default_flow_style=False,
+            allow_unicode=True,
+            sort_keys=False,
+        )
 
     print(f"All materials saved to {output_file}")
