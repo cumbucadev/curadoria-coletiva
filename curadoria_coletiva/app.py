@@ -6,6 +6,9 @@ import yaml
 # Path to the local YAML file
 yaml_file_path = "all_materials.yml"
 
+app = dash.Dash(__name__)
+app.title = "Curadoria Coletiva"
+
 # Load data from the YAML file
 def _load_yaml_data(file_path):
     """Loads data from the specified YAML file."""
@@ -17,19 +20,12 @@ def _create_dataframe(data):
     """Converts YAML data into a Pandas DataFrame."""
     return pd.DataFrame(data)
 
-# Initialize the Dash app
-def _initialize_app():
-    """Initializes the Dash app with layout and title."""
-    app = dash.Dash(__name__)
-    app.title = "Curated Collection"
-    return app
-
 # Layout structure of the application
 def _create_layout(df):
     """Creates the layout for the Dash app."""
     return html.Div(style={'font-family': 'Arial, sans-serif', 'padding': '20px'}, children=[
         _create_logo_section(),
-        html.H1("Curated Collection", style={'color': '#8B008B', 'text-align': 'center', 'margin-bottom': '30px'}),
+        html.H1("Curadoria Coletiva", style={'color': '#8B008B', 'text-align': 'center', 'margin-bottom': '30px'}),
         _create_search_box(),
         _create_filter_dropdowns(df),
         html.Div(id='results', style={'margin-top': '30px'})
@@ -123,7 +119,7 @@ def _generate_field_content(row, col):
     elif col == 'recomendado_por' and row[col]:
         recomendado_usuario = str(row[col]).strip("[]'\"")  # Clean the 'recommended_by' string
         field_content.append(html.P([
-            html.Strong("Recommended by: "),
+            html.Strong("Recomendado por: "),
             html.A(f"@{recomendado_usuario}", href=f"https://github.com/{recomendado_usuario}", target='_blank', style={'color': '#8e44ad'})
         ]))
     else:
@@ -171,18 +167,20 @@ def _register_callbacks(app, df):
         # Generate and return result layout
         return generate_result_layout(filtered_df)
 
+# Load data and create DataFrame
+data = _load_yaml_data(yaml_file_path)
+df = _create_dataframe(data)
+
+# Initialize and set up the app
+app.layout = _create_layout(df)
+
+# Expondo o servidor Flask subjacente para Gunicorn
+server = app.server
+
+# Register callbacks
+_register_callbacks(app, df)
+
 # Main entry point to start the Dash app
 if __name__ == '__main__':
-    # Load data and create DataFrame
-    data = _load_yaml_data(yaml_file_path)
-    df = _create_dataframe(data)
-
-    # Initialize and set up the app
-    app = _initialize_app()
-    app.layout = _create_layout(df)
-
-    # Register callbacks
-    _register_callbacks(app, df)
-
     # Run the server
-    app.run_server(debug=True)
+    app.run_server()
