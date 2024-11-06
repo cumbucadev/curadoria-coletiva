@@ -1,3 +1,4 @@
+import sys
 import yaml
 from pydantic import ValidationError
 from typing import Set, List, Dict, Any
@@ -20,8 +21,10 @@ def validate_materials_from_yaml(yaml_file: str) -> List[Dict[str, Any]]:
             print(f"Valid material found: {material_data.get('titulo')}")
         except ValidationError as e:
             print(f"Validation error in material {material_data.get('titulo')}: {e}")
+            sys.exit(1)
         except ValueError as e:
             print(f"Value error in material {material_data.get('titulo')}: {e}")
+            sys.exit(1)
 
     return validated_materials
 
@@ -69,6 +72,6 @@ def _validate_material(material_data: Dict[str, Any], unique_titles: Set[str]) -
 
 
 if __name__ == "__main__":
-    input_yaml_file = "all_materials.yml"
-    collect_materials("materials", input_yaml_file)
+    input_yaml_file = "curadoria_coletiva/all_materials.yml"
+    collect_materials("curadoria_coletiva/materials", input_yaml_file)
     validate_materials_from_yaml(input_yaml_file)
