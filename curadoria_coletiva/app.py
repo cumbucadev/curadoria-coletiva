@@ -1,10 +1,18 @@
+import shutil
+
+import os
 import dash
 from dash import dcc, html, Input, Output
 import pandas as pd
 import yaml
 
+from curadoria_coletiva.collect_materials import collect_materials
+
+materials_path = "curadoria_coletiva/materials"
 # Path to the local YAML file
 yaml_file_path = "curadoria_coletiva/all_materials.yml"
+
+collect_materials(materials_path, yaml_file_path)
 
 app = dash.Dash(__name__)
 app.title = "Curadoria Coletiva"
@@ -45,7 +53,7 @@ def _create_logo_section():
                     html.Img(
                         alt="Cumbuca Dev Logo",
                         src="https://github.com/cumbucadev/design/raw/main/images/logo-light-transparent.png",
-                        style={'width': '5%'}
+                        style={'width': '15%'}
                     ),
                 ]
             ),

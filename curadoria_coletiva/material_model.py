@@ -1,5 +1,5 @@
 from pydantic import BaseModel, conset, conint
-from enums import (
+from curadoria_coletiva.enums import (
     FormatEnum,
     LanguageEnum,
     LearningStyleEnum,
