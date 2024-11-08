@@ -113,7 +113,7 @@ def _create_filter_dropdowns(df):
                 id="sort-dropdown",
                 options=[
                     {"label": col.replace("_", " ").capitalize(), "value": col}
-                    for col in df.columns
+                    for col in df.columns if col != "file_path"  # remove `file_path`
                 ],
                 placeholder="Ordenar por",
                 style={
