@@ -113,6 +113,18 @@ def _create_filter_dropdowns(df):
                 multi=True,  # Aqui tornamos o campo "Formato" multi-selecionável
             ),
             dcc.Dropdown(
+                id="learning-style-dropdown",
+                options=[
+                    {"label": "Estilo Visual", "value": "visual"},
+                    {"label": "Estilo Auditivo", "value": "auditivo"},
+                    {"label": "Estilo Cinestésico", "value": "cinestésico"},
+                ],
+                multi=True,
+                placeholder="Estilo de aprendizagem",
+                style={"width": "100%"},
+            ),
+
+            dcc.Dropdown(
                 id="sort-dropdown",
                 options=[
                     {"label": col.replace("_", " ").capitalize(), "value": col}
@@ -257,10 +269,11 @@ def _register_callbacks(app, df):
         Input("search-box", "value"),
         Input("subject-dropdown", "value"),
         Input("format-dropdown", "value"),
+        Input("learning-style-dropdown", "value"),  # Novo filtro de estilo de aprendizagem
         Input("sort-dropdown", "value"),
     )
-    def update_table(search_term, selected_subject, selected_format, sort_column):
-        """Updates the table layout based on search, subject, format, and sorting filters."""
+    def update_table(search_term, selected_subject, selected_format, selected_learning_style, sort_column):
+        """Atualiza a tabela com base nos filtros de busca, assunto, formato, estilo de aprendizagem e ordenação."""
         filtered_df = df
 
         # Aplicar o filtro de busca
@@ -278,9 +291,13 @@ def _register_callbacks(app, df):
                 filtered_df["assuntos"].apply(lambda x: all(cat in x for cat in selected_subject))
             ]
 
-        # Aplicar o filtro de formato (exigindo que seja pela uma das seleções)
+        # Aplicar o filtro de formato (verificando se múltiplos valores foram selecionados)
         if selected_format:
             filtered_df = filtered_df[filtered_df["formato"].isin(selected_format)]
+
+        # Aplicar o filtro de estilo de aprendizagem (verificando se múltiplos valores foram selecionados)
+        if selected_learning_style:
+            filtered_df = filtered_df[filtered_df["estilo_aprendizagem"].isin(selected_learning_style)]
 
         # Aplicar o filtro de ordenação
         if sort_column:
@@ -292,6 +309,7 @@ def _register_callbacks(app, df):
         else:
             # Exibir mensagem caso não haja resultados
             return html.Div("Nenhum resultado encontrado.", style={"color": "red", "text-align": "center", "margin-top": "20px"})
+
 
 
 data = _load_yaml_data(yaml_file_path)
