@@ -108,6 +108,7 @@ def _create_filter_dropdowns(df):
                     "display": "inline-block",
                     "verticalAlign": "middle",
                 },
+                multi=True,
             ),
             dcc.Dropdown(
                 id="sort-dropdown",
@@ -289,11 +290,12 @@ def _register_callbacks(app, df):
                 )
             ]
 
-        # Apply category filter
+        # Apply category filter (modificado para exigir todas as seleções)
         if selected_category:
             filtered_df = filtered_df[
-                filtered_df["assuntos"].apply(lambda x: selected_category in x)
+                filtered_df["assuntos"].apply(lambda x: all(cat in x for cat in selected_category))
             ]
+
 
         # Apply sorting
         if sort_column:
