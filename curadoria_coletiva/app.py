@@ -6,7 +6,6 @@ import yaml
 from curadoria_coletiva.collect_materials import collect_materials
 
 materials_path = "curadoria_coletiva/materials"
-# Path to the local YAML file
 yaml_file_path = "curadoria_coletiva/all_materials.yml"
 
 collect_materials(materials_path, yaml_file_path)
@@ -15,24 +14,22 @@ app = dash.Dash(__name__)
 app.title = "Curadoria Coletiva"
 
 
-# Load data from the YAML file
 def _load_yaml_data(file_path):
-    """Loads data from the specified YAML file."""
     with open(file_path, "r", encoding="utf-8") as file:
         return yaml.safe_load(file)
 
 
-# Create a DataFrame from the loaded data
 def _create_dataframe(data):
-    """Converts YAML data into a Pandas DataFrame."""
     return pd.DataFrame(data)
 
 
-# Layout structure of the application
 def _create_layout(df):
     """Creates the layout for the Dash app."""
     return html.Div(
-        style={"font-family": "Arial, sans-serif", "padding": "20px"},
+        style={
+            "font-family": "Arial, sans-serif",
+            "padding": "20px",
+        },
         children=[
             _create_logo_section(),
             html.H1(
@@ -51,7 +48,6 @@ def _create_layout(df):
 
 
 def _create_logo_section():
-    """Generates the logo section with dark and light theme support."""
     return html.Div(
         style={"text-align": "center"},
         children=[
@@ -73,7 +69,6 @@ def _create_logo_section():
 
 
 def _create_search_box():
-    """Creates the search input box."""
     return html.Div(
         [
             dcc.Input(
@@ -93,45 +88,45 @@ def _create_search_box():
 
 
 def _create_filter_dropdowns(df):
-    """Creates the dropdowns for category and sorting filters."""
+    """Creates the dropdowns for subject, format, and sorting filters."""
     return html.Div(
-        [
+        style={"display": "flex", "gap": "10px", "margin-bottom": "20px"},
+        children=[
             dcc.Dropdown(
-                id="category-dropdown",
+                id="subject-dropdown",
                 options=[
                     {"label": i, "value": i}
                     for i in sorted(df["assuntos"].explode().unique().tolist())
                 ],
                 placeholder="Assunto",
-                style={
-                    "width": "48%",
-                    "display": "inline-block",
-                    "verticalAlign": "middle",
-                },
+                style={"width": "100%"},
                 multi=True,
+            ),
+            dcc.Dropdown(
+                id="format-dropdown",
+                options=[
+                    {"label": i, "value": i}
+                    for i in sorted(df["formato"].unique())
+                ],
+                placeholder="Formato",
+                style={"width": "100%"},
+                multi=True,  # Aqui tornamos o campo "Formato" multi-selecionável
             ),
             dcc.Dropdown(
                 id="sort-dropdown",
                 options=[
                     {"label": col.replace("_", " ").capitalize(), "value": col}
-                    for col in df.columns if col != "file_path"  # remove `file_path`
+                    for col in df.columns if col not in ["file_path", "url"]
                 ],
                 placeholder="Ordenar por",
-                style={
-                    "width": "48%",
-                    "display": "inline-block",
-                    "verticalAlign": "middle",
-                    "margin-left": "4%",
-                },
+                style={"width": "100%"},
             ),
         ],
-        style={"margin-bottom": "20px"},
     )
 
 
-# Generate the layout of results with additional styling
+
 def generate_result_layout(filtered_df):
-    """Generates the result layout for filtered DataFrame."""
     result_layout = []
     for _, row in filtered_df.iterrows():
         result_layout.extend(_generate_result_for_row(row))
@@ -139,10 +134,8 @@ def generate_result_layout(filtered_df):
 
 
 def _generate_result_for_row(row):
-    """Generates individual result row layout."""
     result_row = []
 
-    # Title
     result_row.append(
         html.H3(
             row["titulo"],
@@ -154,14 +147,10 @@ def _generate_result_for_row(row):
         )
     )
 
-    # Display fields and clickable links (excluding 'file_path')
     for col in df.columns:
-        if (
-            col != "comentarios" and col != "file_path"
-        ):  # Ensure 'file_path' is not shown
+        if col != "comentarios" and col != "file_path":
             result_row.extend(_generate_field_content(row, col))
 
-    # Recommendation and comment links
     github_edit_link = f"https://github.com/cumbucadev/curadoria-coletiva/edit/main/curadoria-coletiva/{row['file_path']}"
     result_row.append(
         html.Div(
@@ -187,14 +176,12 @@ def _generate_result_for_row(row):
         )
     )
 
-    # Collapsible comments section
     result_row.append(_generate_collapsible_comments(row))
 
     return result_row
 
 
 def _generate_field_content(row, col):
-    """Generates content for each field in the result row."""
     field_content = []
     if col == "url":
         field_content.append(
@@ -213,7 +200,7 @@ def _generate_field_content(row, col):
     elif col == "recomendado_por" and row[col]:
         recomendado_usuario = str(row[col]).strip(
             "[]'\""
-        )  # Clean the 'recommended_by' string
+        )
         field_content.append(
             html.P(
                 [
@@ -237,7 +224,6 @@ def _generate_field_content(row, col):
 
 
 def _generate_collapsible_comments(row):
-    """Generates the collapsible comments section."""
     comments_text = "".join(
         [
             f"<p><b><a href='https://github.com/{comment['usuario']}' target='_blank' style='color: #8e44ad;'>@{comment['usuario']}</a>:</b> {comment['texto']}</p>"
@@ -265,60 +251,55 @@ def _generate_collapsible_comments(row):
     )
 
 
-# Callback to update the table based on filters
 def _register_callbacks(app, df):
-    """Registers the callback functions to handle updates on the app."""
-
     @app.callback(
         Output("results", "children"),
         Input("search-box", "value"),
-        Input("category-dropdown", "value"),
+        Input("subject-dropdown", "value"),
+        Input("format-dropdown", "value"),
         Input("sort-dropdown", "value"),
     )
-    def update_table(search_term, selected_category, sort_column):
-        """Updates the table layout based on search, category, and sorting filters."""
+    def update_table(search_term, selected_subject, selected_format, sort_column):
+        """Updates the table layout based on search, subject, format, and sorting filters."""
         filtered_df = df
 
-        # Apply search filter
+        # Aplicar o filtro de busca
         if search_term:
             filtered_df = filtered_df[
                 filtered_df.apply(
-                    lambda row: row.astype(str)
-                    .str.contains(search_term, case=False)
-                    .any(),
+                    lambda row: row.astype(str).str.contains(search_term, case=False).any(),
                     axis=1,
                 )
             ]
 
-        # Apply category filter (modificado para exigir todas as seleções)
-        if selected_category:
+        # Aplicar o filtro de assunto (exigindo todas as seleções)
+        if selected_subject:
             filtered_df = filtered_df[
-                filtered_df["assuntos"].apply(lambda x: all(cat in x for cat in selected_category))
+                filtered_df["assuntos"].apply(lambda x: all(cat in x for cat in selected_subject))
             ]
 
+        # Aplicar o filtro de formato (exigindo que seja pela uma das seleções)
+        if selected_format:
+            filtered_df = filtered_df[filtered_df["formato"].isin(selected_format)]
 
-        # Apply sorting
+        # Aplicar o filtro de ordenação
         if sort_column:
             filtered_df = filtered_df.sort_values(by=sort_column)
 
-        # Generate and return result layout
-        return generate_result_layout(filtered_df)
+        # Gerar e retornar o layout dos resultados
+        if not filtered_df.empty:
+            return generate_result_layout(filtered_df)
+        else:
+            # Exibir mensagem caso não haja resultados
+            return html.Div("Nenhum resultado encontrado.", style={"color": "red", "text-align": "center", "margin-top": "20px"})
 
 
-# Load data and create DataFrame
 data = _load_yaml_data(yaml_file_path)
 df = _create_dataframe(data)
 
-# Initialize and set up the app
 app.layout = _create_layout(df)
-
-# Expondo o servidor Flask subjacente para Gunicorn
 server = app.server
-
-# Register callbacks
 _register_callbacks(app, df)
 
-# Main entry point to start the Dash app
 if __name__ == "__main__":
-    # Run the server
     app.run_server()
