@@ -14,7 +14,7 @@
   estilo_aprendizagem: "cinestésico"
   idioma: português (BR)
   nivel_dificuldade: intermediário
-  eh_gratuito: false
+  eh_gratuito: False
   recomendado_por:
     - "mariagabriela"
   comentarios:

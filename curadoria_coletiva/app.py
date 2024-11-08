@@ -151,6 +151,14 @@ def _create_filter_dropdowns(df):
                 placeholder="Dificuldade",
                 style={"width": "100%"},
             ),
+            dcc.Checklist(
+                id="free-filter",
+                options=[
+                    {"label": " É gratuito", "value": "gratuito"}
+                ],
+                value=[],
+                style={"width": "100%", "margin-top": "10px"},
+            ),
             dcc.Dropdown(
                 id="sort-dropdown",
                 options=[
@@ -226,7 +234,7 @@ def _generate_field_content(row, col):
         field_content.append(
             html.P(
                 [
-                    html.Strong(f"{col.replace('_', ' ').capitalize()}: "),
+                    html.Span(f"{col.replace('_', ' ').capitalize()}: "),
                     html.A(
                         row[col],
                         href=row[col],
@@ -241,7 +249,7 @@ def _generate_field_content(row, col):
         field_content.append(
             html.P(
                 [
-                    html.Strong("Recomendado por: "),
+                    html.Span("Recomendado por: "),
                     html.A(
                         f"@{recomendado_usuario}",
                         href=f"https://github.com/{recomendado_usuario}",
@@ -249,6 +257,12 @@ def _generate_field_content(row, col):
                         style={"color": "#8e44ad"},
                     ),
                 ]
+            )
+        )
+    elif col == "eh_gratuito":
+        field_content.append(
+            html.P(
+                f"{col.replace('_', ' ').capitalize()}: {'sim' if row[col] else 'não'}"
             )
         )
     else:
@@ -297,6 +311,7 @@ def _register_callbacks(app, df):
         Input("learning-style-dropdown", "value"),
         Input("language-dropdown", "value"),
         Input("level-dropdown", "value"),
+        Input("free-filter", "value"),
         Input("sort-dropdown", "value"),
     )
     def update_table(
@@ -306,6 +321,7 @@ def _register_callbacks(app, df):
         selected_learning_style,
         selected_language,
         selected_level,
+        free_filter,
         sort_column,
     ):
         """Atualiza a tabela com base nos filtros de busca, assunto, formato, estilo de aprendizagem e ordenação."""
@@ -348,6 +364,9 @@ def _register_callbacks(app, df):
 
         if sort_column:
             filtered_df = filtered_df.sort_values(by=sort_column)
+
+        if free_filter:
+            filtered_df = filtered_df[filtered_df["eh_gratuito"] == True]
 
         if not filtered_df.empty:
             return generate_result_layout(filtered_df)

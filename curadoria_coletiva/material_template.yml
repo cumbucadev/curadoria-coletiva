@@ -37,7 +37,7 @@
   # 'expert'
   nivel_dificuldade:
 
-  # Indica se o material é gratuito para acesso. Umas das opções: true ou false
+  # Indica se o material é gratuito para acesso. Umas das opções: True ou False
   eh_gratuito:
 
   # Lista de usernames do GitHub de pessoas que recomendam o material
