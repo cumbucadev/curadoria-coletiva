@@ -45,6 +45,19 @@ def _create_layout(df):
                     "margin-bottom": "30px",
                 },
             ),
+            html.A(
+                "Colabore Já! Recomende Materiais 🤓 📚",
+                href="https://github.com/cumbucadev/curadoria-coletiva",
+                target="_blank",
+                style={
+                    "display": "block",
+                    "text-align": "center",
+                    "color": "#6A1B9A",
+                    "font-weight": "bold",
+                    "margin-bottom": "30px",
+                    "font-size": "18px",
+                },
+            ),
             html.H6(
                 "Busca",
                 style={
