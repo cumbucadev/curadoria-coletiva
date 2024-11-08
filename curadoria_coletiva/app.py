@@ -66,7 +66,8 @@ def _create_layout(df):
                 style={"margin-top": "30px"},
                 children=[
                     html.H2(
-                        "Resultados",
+                        id="results-section-title",
+                        children="Resultados",
                         style={
                             "color": "#8B008B",
                             "margin-bottom": "20px",
@@ -355,7 +356,7 @@ def _generate_collapsible_comments(row):
 
 def _register_callbacks(app, df):
     @app.callback(
-        Output("results", "children"),
+        [Output("results", "children"), Output("results-section-title", "children")],
         Input("search-box", "value"),
         Input("subject-dropdown", "value"),
         Input("format-dropdown", "value"),
@@ -375,9 +376,10 @@ def _register_callbacks(app, df):
         free_filter,
         sort_column,
     ):
-        """Atualiza a tabela com base nos filtros de busca, assunto, formato, estilo de aprendizagem e ordenação."""
+        """Atualiza a tabela e o título com a contagem de resultados com base nos filtros."""
         filtered_df = df
 
+        # Aplicar os filtros
         if search_term:
             filtered_df = filtered_df[
                 filtered_df.apply(
@@ -399,34 +401,29 @@ def _register_callbacks(app, df):
             filtered_df = filtered_df[filtered_df["formato"].isin(selected_format)]
 
         if selected_learning_style:
-            filtered_df = filtered_df[
-                filtered_df["estilo_aprendizagem"].isin(selected_learning_style)
-            ]
+            filtered_df = filtered_df[filtered_df["estilo_aprendizagem"].isin(selected_learning_style)]
 
         if selected_language:
-            filtered_df = filtered_df[
-                filtered_df["idioma"].isin(selected_language)
-            ]
+            filtered_df = filtered_df[filtered_df["idioma"].isin(selected_language)]
 
         if selected_level:
-            filtered_df = filtered_df[
-                filtered_df["nivel_dificuldade"].isin(selected_level)
-            ]
-
-        if sort_column:
-            filtered_df = filtered_df.sort_values(by=sort_column)
+            filtered_df = filtered_df[filtered_df["nivel_dificuldade"].isin(selected_level)]
 
         if free_filter:
             filtered_df = filtered_df[filtered_df["eh_gratuito"] == True]
 
-        if not filtered_df.empty:
-            return generate_result_layout(filtered_df)
-        else:
-            return html.Div(
-                "Nenhum resultado encontrado.",
-                style={"color": "red", "text-align": "center", "margin-top": "20px"},
-            )
+        # Aplicar ordenação se selecionada
+        if sort_column:
+            filtered_df = filtered_df.sort_values(by=sort_column)
 
+        # Contagem de resultados
+        result_count = len(filtered_df)
+        result_title = f"Resultados ({result_count})"
+
+        # Layout dos resultados
+        result_layout = generate_result_layout(filtered_df)
+
+        return result_layout, result_title
 
 data = _load_yaml_data(yaml_file_path)
 df = _create_dataframe(data)
