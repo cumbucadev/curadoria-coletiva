@@ -241,7 +241,7 @@ def _create_footer():
             html.Div(
                 style={"margin-bottom": "10px"},
                 children=[
-                    html.H4("Siga a Cumbuca Dev nas redes sociais"),
+                    html.H6("Siga a Cumbuca Dev nas redes sociais"),
                 ]
             ),
             html.Div(
