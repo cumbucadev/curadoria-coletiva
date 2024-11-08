@@ -9,7 +9,7 @@ class LanguageEnum(str, Enum):
     - PT_BR: Brazilian Portuguese language.
     """
 
-    EN = "english"
+    EN = "inglês"
     PT_BR = "português (BR)"
 
     def __str__(self):

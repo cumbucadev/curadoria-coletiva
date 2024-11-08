@@ -30,7 +30,7 @@
   # Estilo de aprendizagem preferido. Umas das opções: 'visual', 'auditivo', ou 'cinestésico'
   estilo_aprendizagem:
 
-  # Idioma em que o material é apresentado. Umas das opções: 'português (BR)' ou 'english'
+  # Idioma em que o material é apresentado. Umas das opções: 'português (BR)' ou 'inglês'
   idioma:
 
   # Nível de dificuldade do material. Umas das opções: 'iniciante', 'intermediário', 'avançado', ou
