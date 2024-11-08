@@ -45,9 +45,36 @@ def _create_layout(df):
                     "margin-bottom": "30px",
                 },
             ),
+            html.H6(
+                "Busca",
+                style={
+                    "margin-bottom": "20px",
+                    "font-weight": "bold",
+                },
+            ),
             _create_search_box(),
+            html.H6(
+                "Filtros de Pesquisa",
+                style={
+                    "margin-bottom": "20px",
+                    "font-weight": "bold",
+                },
+            ),
             _create_filter_dropdowns(df),
-            html.Div(id="results", style={"margin-top": "30px"}),
+            html.Div(
+                id="results-section",
+                style={"margin-top": "30px"},
+                children=[
+                    html.H2(
+                        "Resultados da Busca",
+                        style={
+                            "color": "#8B008B",
+                            "margin-bottom": "20px",
+                        },
+                    ),
+                    html.Div(id="results"),
+                ]
+            ),
         ],
     )
 
@@ -84,10 +111,16 @@ def _create_search_box():
                 type="text",
                 placeholder="Digite para buscar...",
                 style={
+                    "display": "flex",
+                    "flex-wrap": "wrap",
                     "width": "100%",
-                    "padding": "10px",
-                    "border": "1px solid #ccc",
-                    "border-radius": "5px",
+                    "gap": "10px",
+                    "margin-bottom": "20px",
+                    "border": "2px solid #E1BEE7",  # Cor da borda mais suave
+                    "border-radius": "10px",  # Borda arredondada
+                    "padding": "10px",  # Adiciona algum espaçamento interno
+                    "box-shadow": "0 4px 8px rgba(0, 0, 0, 0.1)",  # Sombra suave para dar profundidade
+                    "background-color": "#F9F9F9",  # Cor de fundo clara
                 },
             ),
         ],
@@ -103,6 +136,11 @@ def _create_filter_dropdowns(df):
             "flex-wrap": "wrap",
             "gap": "10px",
             "margin-bottom": "20px",
+            "border": "2px solid #E1BEE7",  # Cor da borda mais suave
+            "border-radius": "10px",  # Borda arredondada
+            "padding": "10px",  # Adiciona algum espaçamento interno
+            "box-shadow": "0 4px 8px rgba(0, 0, 0, 0.1)",  # Sombra suave para dar profundidade
+            "background-color": "#F9F9F9",  # Cor de fundo clara
         },
         children=[
             dcc.Dropdown(
