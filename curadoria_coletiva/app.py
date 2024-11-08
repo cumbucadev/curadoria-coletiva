@@ -284,7 +284,7 @@ def _create_footer():
                     ),
                     # YouTube
                     html.A(
-                        href="https://www.youtube.com/cumbucadev",
+                        href="https://www.youtube.com/@cumbucadev",
                         target="_blank",
                         children=[
                             html.Img(
