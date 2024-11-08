@@ -10,7 +10,12 @@ yaml_file_path = "curadoria_coletiva/all_materials.yml"
 
 collect_materials(materials_path, yaml_file_path)
 
-app = dash.Dash(__name__)
+app = dash.Dash(
+    __name__,
+    external_stylesheets=[
+        "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    ],
+)
 app.title = "Curadoria Coletiva"
 
 
@@ -60,7 +65,10 @@ def _create_logo_section():
                     html.Img(
                         alt="Cumbuca Dev Logo",
                         src="https://github.com/cumbucadev/design/raw/main/images/logo-light-transparent.png",
-                        style={"width": "15%"},
+                        style={
+                            "width": "15vw",  # O logo será 15% da largura da tela
+                            "max-width": "200px",  # Tamanho máximo
+                        },
                     ),
                 ]
             ),
@@ -90,7 +98,12 @@ def _create_search_box():
 def _create_filter_dropdowns(df):
     """Creates the dropdowns for subject, format, and sorting filters."""
     return html.Div(
-        style={"display": "flex", "gap": "10px", "margin-bottom": "20px"},
+        style={
+            "display": "flex",
+            "flex-wrap": "wrap",
+            "gap": "10px",
+            "margin-bottom": "20px",
+        },
         children=[
             dcc.Dropdown(
                 id="subject-dropdown",
@@ -105,12 +118,11 @@ def _create_filter_dropdowns(df):
             dcc.Dropdown(
                 id="format-dropdown",
                 options=[
-                    {"label": i, "value": i}
-                    for i in sorted(df["formato"].unique())
+                    {"label": i, "value": i} for i in sorted(df["formato"].unique())
                 ],
                 placeholder="Formato",
                 style={"width": "100%"},
-                multi=True,  # Aqui tornamos o campo "Formato" multi-selecionável
+                multi=True,
             ),
             dcc.Dropdown(
                 id="learning-style-dropdown",
@@ -123,19 +135,18 @@ def _create_filter_dropdowns(df):
                 placeholder="Estilo de aprendizagem",
                 style={"width": "100%"},
             ),
-
             dcc.Dropdown(
                 id="sort-dropdown",
                 options=[
                     {"label": col.replace("_", " ").capitalize(), "value": col}
-                    for col in df.columns if col not in ["file_path", "url"]
+                    for col in df.columns
+                    if col not in ["file_path", "url"]
                 ],
                 placeholder="Ordenar por",
                 style={"width": "100%"},
             ),
         ],
     )
-
 
 
 def generate_result_layout(filtered_df):
@@ -210,9 +221,7 @@ def _generate_field_content(row, col):
             )
         )
     elif col == "recomendado_por" and row[col]:
-        recomendado_usuario = str(row[col]).strip(
-            "[]'\""
-        )
+        recomendado_usuario = str(row[col]).strip("[]'\"")
         field_content.append(
             html.P(
                 [
@@ -269,47 +278,54 @@ def _register_callbacks(app, df):
         Input("search-box", "value"),
         Input("subject-dropdown", "value"),
         Input("format-dropdown", "value"),
-        Input("learning-style-dropdown", "value"),  # Novo filtro de estilo de aprendizagem
+        Input("learning-style-dropdown", "value"),
         Input("sort-dropdown", "value"),
     )
-    def update_table(search_term, selected_subject, selected_format, selected_learning_style, sort_column):
+    def update_table(
+        search_term,
+        selected_subject,
+        selected_format,
+        selected_learning_style,
+        sort_column,
+    ):
         """Atualiza a tabela com base nos filtros de busca, assunto, formato, estilo de aprendizagem e ordenação."""
         filtered_df = df
 
-        # Aplicar o filtro de busca
         if search_term:
             filtered_df = filtered_df[
                 filtered_df.apply(
-                    lambda row: row.astype(str).str.contains(search_term, case=False).any(),
+                    lambda row: row.astype(str)
+                    .str.contains(search_term, case=False)
+                    .any(),
                     axis=1,
                 )
             ]
 
-        # Aplicar o filtro de assunto (exigindo todas as seleções)
         if selected_subject:
             filtered_df = filtered_df[
-                filtered_df["assuntos"].apply(lambda x: all(cat in x for cat in selected_subject))
+                filtered_df["assuntos"].apply(
+                    lambda x: all(cat in x for cat in selected_subject)
+                )
             ]
 
-        # Aplicar o filtro de formato (verificando se múltiplos valores foram selecionados)
         if selected_format:
             filtered_df = filtered_df[filtered_df["formato"].isin(selected_format)]
 
-        # Aplicar o filtro de estilo de aprendizagem (verificando se múltiplos valores foram selecionados)
         if selected_learning_style:
-            filtered_df = filtered_df[filtered_df["estilo_aprendizagem"].isin(selected_learning_style)]
+            filtered_df = filtered_df[
+                filtered_df["estilo_aprendizagem"].isin(selected_learning_style)
+            ]
 
-        # Aplicar o filtro de ordenação
         if sort_column:
             filtered_df = filtered_df.sort_values(by=sort_column)
 
-        # Gerar e retornar o layout dos resultados
         if not filtered_df.empty:
             return generate_result_layout(filtered_df)
         else:
-            # Exibir mensagem caso não haja resultados
-            return html.Div("Nenhum resultado encontrado.", style={"color": "red", "text-align": "center", "margin-top": "20px"})
-
+            return html.Div(
+                "Nenhum resultado encontrado.",
+                style={"color": "red", "text-align": "center", "margin-top": "20px"},
+            )
 
 
 data = _load_yaml_data(yaml_file_path)
@@ -320,4 +336,4 @@ server = app.server
 _register_callbacks(app, df)
 
 if __name__ == "__main__":
-    app.run_server()
+    app.run_server(debug=True)
