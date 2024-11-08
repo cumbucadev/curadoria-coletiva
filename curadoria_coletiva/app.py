@@ -66,7 +66,7 @@ def _create_layout(df):
                 style={"margin-top": "30px"},
                 children=[
                     html.H2(
-                        "Resultados da Busca",
+                        "Resultados",
                         style={
                             "color": "#8B008B",
                             "margin-bottom": "20px",
@@ -214,7 +214,20 @@ def _create_filter_dropdowns(df):
 def generate_result_layout(filtered_df):
     result_layout = []
     for _, row in filtered_df.iterrows():
-        result_layout.extend(_generate_result_for_row(row))
+        result_layout.append(
+            html.Div(
+                _generate_result_for_row(row),
+                style={
+                    "border": "2px solid #E1BEE7",  # Cor da borda
+                    "border-radius": "10px",  # Borda arredondada
+                    "padding": "15px",  # Espaçamento interno
+                    "box-shadow": "0 4px 8px rgba(0, 0, 0, 0.1)",  # Sombra para profundidade
+                    "background-color": "#F9F9F9",  # Cor de fundo
+                    "margin-bottom": "20px",  # Espaçamento entre os resultados
+                }
+            )
+        )
+
     return result_layout
 
 
