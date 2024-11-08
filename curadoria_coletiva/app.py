@@ -89,6 +89,7 @@ def _create_layout(df):
                     html.Div(id="results"),
                 ]
             ),
+            _create_footer()
         ],
     )
 
@@ -97,25 +98,30 @@ def _create_logo_section():
     return html.Div(
         style={"text-align": "center"},
         children=[
-            html.Picture(
+            html.A(
+                href="https://cumbuca.dev",  # Link para a Cumbuca Dev
+                target="_blank",  # Abre o link em uma nova aba
                 children=[
-                    html.Source(
-                        media="(prefers-color-scheme: dark)",
-                        srcSet="https://github.com/cumbucadev/design/raw/main/images/logo-dark-transparent.png",
-                    ),
-                    html.Img(
-                        alt="Cumbuca Dev Logo",
-                        src="https://github.com/cumbucadev/design/raw/main/images/logo-light-transparent.png",
-                        style={
-                            "width": "15vw",  # O logo será 15% da largura da tela
-                            "max-width": "200px",  # Tamanho máximo
-                        },
+                    html.Picture(
+                        children=[
+                            html.Source(
+                                media="(prefers-color-scheme: dark)",
+                                srcSet="https://github.com/cumbucadev/design/raw/main/images/logo-dark-transparent.png",
+                            ),
+                            html.Img(
+                                alt="Cumbuca Dev Logo",
+                                src="https://github.com/cumbucadev/design/raw/main/images/logo-light-transparent.png",
+                                style={
+                                    "width": "15vw",  # O logo será 15% da largura da tela
+                                    "max-width": "200px",  # Tamanho máximo
+                                },
+                            ),
+                        ]
                     ),
                 ]
             ),
         ],
     )
-
 
 def _create_search_box():
     return html.Div(
@@ -223,6 +229,105 @@ def _create_filter_dropdowns(df):
             ),
         ],
     )
+
+def _create_footer():
+    return html.Footer(
+        style={
+            "padding": "20px",
+            "text-align": "center",
+            "border-top": "1px solid #ddd",
+        },
+        children=[
+            html.Div(
+                style={"margin-bottom": "10px"},
+                children=[
+                    html.H4("Siga a Cumbuca Dev nas redes sociais"),
+                ]
+            ),
+            html.Div(
+                children=[
+                    # GitHub
+                    html.A(
+                        href="https://github.com/cumbucadev",
+                        target="_blank",
+                        children=[
+                            html.Img(
+                                src="/assets/icons8-github-50.png",  # Logo do GitHub local
+                                alt="GitHub",
+                                style={"width": "30px", "height": "30px", "margin": "0 10px"}
+                            )
+                        ]
+                    ),
+                    # Instagram
+                    html.A(
+                        href="https://www.instagram.com/cumbucadev",
+                        target="_blank",
+                        children=[
+                            html.Img(
+                                src="/assets/icons8-instagram-48.png",  # Logo do Instagram local
+                                alt="Instagram",
+                                style={"width": "30px", "height": "30px", "margin": "0 10px"}
+                            )
+                        ]
+                    ),
+                    # Twitter
+                    html.A(
+                        href="https://twitter.com/cumbucadev",
+                        target="_blank",
+                        children=[
+                            html.Img(
+                                src="/assets/icons8-twitterx-48.png",  # Logo do Twitter local
+                                alt="Twitter",
+                                style={"width": "30px", "height": "30px", "margin": "0 10px"}
+                            )
+                        ]
+                    ),
+                    # YouTube
+                    html.A(
+                        href="https://www.youtube.com/cumbucadev",
+                        target="_blank",
+                        children=[
+                            html.Img(
+                                src="/assets/icons8-youtube-48.png",  # Logo do YouTube local
+                                alt="YouTube",
+                                style={"width": "30px", "height": "30px", "margin": "0 10px"}
+                            )
+                        ]
+                    ),
+                    # LinkedIn
+                    html.A(
+                        href="https://www.linkedin.com/company/cumbucadev",
+                        target="_blank",
+                        children=[
+                            html.Img(
+                                src="/assets/icons8-linkedin-48.png",  # Logo do LinkedIn local
+                                alt="LinkedIn",
+                                style={"width": "30px", "height": "30px", "margin": "0 10px"}
+                            )
+                        ]
+                    ),
+                    # Email
+                    html.A(
+                        href="mailto:cumbucadev@gmail.com",
+                        children=[
+                            html.Img(
+                                src="/assets/icons8-email-50.png",  # Ícone de Email local
+                                alt="Email",
+                                style={"width": "30px", "height": "30px", "margin": "0 10px"}
+                            )
+                        ]
+                    ),
+                ],
+            ),
+            html.Div(
+                style={"margin-top": "10px", "font-size": "12px", "color": "#777"},
+                children=[
+                    "© 2024 Cumbuca Dev - Todos os direitos reservados."
+                ]
+            ),
+        ],
+    )
+
 
 
 def generate_result_layout(filtered_df):
@@ -437,6 +542,7 @@ def _register_callbacks(app, df):
         result_layout = generate_result_layout(filtered_df)
 
         return result_layout, result_title
+
 
 data = _load_yaml_data(yaml_file_path)
 df = _create_dataframe(data)
