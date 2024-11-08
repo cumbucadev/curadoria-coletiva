@@ -143,6 +143,15 @@ def _create_filter_dropdowns(df):
                 style={"width": "100%"},
             ),
             dcc.Dropdown(
+                id="level-dropdown",
+                options=[
+                    {"label": i, "value": i} for i in sorted(df["nivel_dificuldade"].unique())
+                ],
+                multi=True,
+                placeholder="Dificuldade",
+                style={"width": "100%"},
+            ),
+            dcc.Dropdown(
                 id="sort-dropdown",
                 options=[
                     {"label": col.replace("_", " ").capitalize(), "value": col}
@@ -287,6 +296,7 @@ def _register_callbacks(app, df):
         Input("format-dropdown", "value"),
         Input("learning-style-dropdown", "value"),
         Input("language-dropdown", "value"),
+        Input("level-dropdown", "value"),
         Input("sort-dropdown", "value"),
     )
     def update_table(
@@ -295,6 +305,7 @@ def _register_callbacks(app, df):
         selected_format,
         selected_learning_style,
         selected_language,
+        selected_level,
         sort_column,
     ):
         """Atualiza a tabela com base nos filtros de busca, assunto, formato, estilo de aprendizagem e ordenação."""
@@ -328,6 +339,11 @@ def _register_callbacks(app, df):
         if selected_language:
             filtered_df = filtered_df[
                 filtered_df["idioma"].isin(selected_language)
+            ]
+
+        if selected_level:
+            filtered_df = filtered_df[
+                filtered_df["nivel_dificuldade"].isin(selected_level)
             ]
 
         if sort_column:
