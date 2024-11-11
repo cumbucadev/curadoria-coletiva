@@ -43,7 +43,7 @@ seguintes arquivos:
 - [LICENSE.md](/LICENSE.md): Detalhes sobre a licença do projeto. Ela define o que você pode e não
   pode fazer com o código. Em geral, a licença permite que você use, modifique e distribua o código,
   desde que siga os termos definidos. No entanto, é importante verificar se há restrições
-  específicas, como atribuição de crédito ao autor original ou proibição de uso comercial.
+  específicas, como atribuição de crédito da autoria original ou proibição de uso comercial.
 
 Certifique-se de ler esses arquivos com atenção antes de contribuir. Se tiver qualquer dificuldade
 ou dúvida, não hesite em nos perguntar utilizando o [GitHub Discussions][github-discussions]. Toda

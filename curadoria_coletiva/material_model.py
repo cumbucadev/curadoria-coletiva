@@ -30,7 +30,7 @@ class Material(BaseModel):
 
     Attributes:
         titulo (str): The title of the material.
-        autor (Optional[str]): The author, creator, or organization responsible for the material.
+        autoria (Optional[str]): The author, creator, or organization responsible for the material.
         url (Optional[str]): A URL link to the source of the material, if available.
         assuntos (set of SubjectEnum): A set of subjects covered in the material.
         formato (FormatEnum): The format of the material, such as video, blog post, or book.
@@ -49,7 +49,7 @@ class Material(BaseModel):
     """
 
     titulo: str
-    autor: str
+    autoria: str
     url: str
     assuntos: conset(SubjectEnum, min_length=1)
     formato: FormatEnum
@@ -67,7 +67,7 @@ class Material(BaseModel):
         json_schema_extra = {
             "example": {
                 "titulo": "Introdução ao Python",
-                "autor": "Jane Doe",
+                "autoria": "Jane Doe",
                 "url": "https://example.com/python-course",
                 "assuntos": {SubjectEnum.PYTHON, SubjectEnum.PROGRAMMING_BASICS},
                 "formato": FormatEnum.VIDEO,
