@@ -1,7 +1,10 @@
 name: Validate Materials
 
 on:
+  pull_request:
   push:
+    branches:
+      - main
 
 jobs:
   validate:
