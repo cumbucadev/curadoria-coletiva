@@ -1,7 +1,7 @@
 # auto-generated file, please don't change it
 
 - titulo: Introdução ao Python
-  autor: Jane Doe
+  autoria: Jane Doe
   url: https://example.com/python-course
   assuntos:
   - python
@@ -22,7 +22,7 @@
     texto: Adoro o capítulo 5! Ele explica conceitos complexos de forma clara e acessível.
   file_path: materials/example.yml
 - titulo: Avançando com Python
-  autor: John Smith
+  autoria: John Smith
   url: https://example.com/advanced-python
   assuntos:
   - desenvolvimento web
